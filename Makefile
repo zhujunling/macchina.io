@@ -1,12 +1,10 @@
 #
 # Makefile
 #
-# $Id$
-#
 # Global Makefile for macchina.io
 #
 
-.PHONY: clean all install_sdk install_runtime install
+.PHONY: clean all clean_bundles install_sdk install_runtime install
 
 PRODUCT ?= sdk
 DESTDIR ?= /usr/local/macchina
@@ -83,6 +81,11 @@ clean all:
 	$(MAKE) -C devices $(MAKECMDGOALS) $(MAKEARGS)
 	$(MAKE) -C services $(MAKECMDGOALS) $(MAKEARGS)
 	$(MAKE) -C webui $(MAKECMDGOALS) $(MAKEARGS)
+	$(MAKE) -C samples $(MAKECMDGOALS) $(MAKEARGS)
+	
+clean_bundles:
+	rm platform/OSP/bundles/*.bndl
+	rm */bundles/*.bndl
 
 # Host tools only
 hosttools:
@@ -94,6 +97,7 @@ hosttools:
 	$(MAKE) -C platform/Zip
 	$(MAKE) -C platform/OSP 
 	$(MAKE) -C platform/OSP/BundleCreator 
+	$(MAKE) -C platform/OSP/CodeCacheUtility 
 	$(MAKE) -C platform/CppParser 
 	$(MAKE) -C platform/CodeGeneration 
 	$(MAKE) -C platform/RemotingNG

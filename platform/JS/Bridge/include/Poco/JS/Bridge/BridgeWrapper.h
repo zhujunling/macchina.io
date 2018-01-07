@@ -1,8 +1,6 @@
 //
 // BridgeWrapper.h
 //
-// $Id: //poco/1.4/JS/Bridge/include/Poco/JS/Bridge/BridgeWrapper.h#9 $
-//
 // Library: JS/Bridge
 // Package: Bridging
 // Module:  BridgeWrapper
@@ -45,7 +43,7 @@ class JSBridge_API BridgeHolder: public Poco::RefCountedObject
 public:
 	typedef Poco::AutoPtr<BridgeHolder> Ptr;
 	
-	BridgeHolder(v8::Isolate* pIsolate, const std::string& uri);
+	BridgeHolder(const std::string& uri);
 		/// Creates the BridgeHolder.
 		
 	~BridgeHolder();
@@ -94,12 +92,11 @@ protected:
 	void unregisterHolder();
 	void disableEvents();
 	
-	static void destruct(const v8::WeakCallbackData<v8::Object, BridgeHolder>& data);
+	static void destruct(const v8::WeakCallbackInfo<BridgeHolder>& data);
 
 private:
 	typedef std::map<std::string, BridgeHolder*> HolderMap;
 
-	v8::Isolate* _pIsolate;
 	Poco::JS::Core::JSExecutor::Ptr _pExecutor;
 	std::string _uri;
 	std::string _subscriberURI;
@@ -141,6 +138,7 @@ protected:
 	static void setProperty(v8::Local<v8::String> name, v8::Local<v8::Value> value, const v8::PropertyCallbackInfo<v8::Value>& info);
 	static void bridgeFunction(const v8::FunctionCallbackInfo<v8::Value>& args);
 	static void on(const v8::FunctionCallbackInfo<v8::Value>& args);
+	static void toJSON(const v8::FunctionCallbackInfo<v8::Value>& args);
 };
 
 
